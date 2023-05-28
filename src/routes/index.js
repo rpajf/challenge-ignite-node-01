@@ -1,13 +1,9 @@
 import Database from '../db.js';
 import { buildRouteParams } from '../utils/index.js';
 import { readTasksFromCSV } from '../csv/readFromCsv.js';
-import {randomUUID} from 'node:crypto'
+import { randomUUID } from 'node:crypto';
 const database = new Database();
 const importedTasks = readTasksFromCSV();
-
-// Nesse arquivo, deve ser feito a leitura do CSV e PARA CADA LINHA,
-// realize uma requisição para a rota POST - /tasks,
-// passando os campos necessários.
 
 export const routes = [
   {
@@ -15,9 +11,6 @@ export const routes = [
     path: buildRouteParams('/tasks'),
     handler: (req, res) => {
       const { title, description } = req.body;
-      let massTitle;
-      let massDescription;
-      let id = 0;
 
       let task = {
         id: 1,
@@ -73,10 +66,22 @@ export const routes = [
     path: buildRouteParams('/tasks/:id'),
     handler: (req, res) => {
       const { id } = req.params;
-      const { completed_at } = req.body;
+      const { completed_at, title, description } = req.body;
+      if (!title || !description) {
+        return res
+          .writeHead(400)
+          .end(
+            JSON.stringify({ message: 'title or description are required' })
+          );
+      }
       //  database.edit('tasks', id);
-       const updateDate = new Date()
-      const tasks = database.edit('tasks', id, {updated_at: updateDate, completed_at: completed_at});
+      const updateDate = new Date();
+      const tasks = database.edit('tasks', id, {
+        title,
+        description,
+        updated_at: updateDate,
+        completed_at: completed_at,
+      });
       // const tasks = database.edit('tasks', id);
       return res.writeHead(204).end(JSON.stringify(tasks));
     },
