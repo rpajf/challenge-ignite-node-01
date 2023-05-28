@@ -1,0 +1,19 @@
+{
+  "name": "challenge-ignite-node-01",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "https://github.com/rpajf/challenge-ignite-node-01.git",
+  "author": "raphaelpdev <raphael.portela@powtoon.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "assert": "^2.0.0",
+    "csv-generate": "^4.2.6",
+    "csv-parse": "^5.3.10",
+    "csv-stringify": "^6.4.0",
+    "uuidv4": "^6.2.13"
+  }
+}
